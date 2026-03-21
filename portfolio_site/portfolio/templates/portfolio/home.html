@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <script>history.scrollRestoration = 'manual';</script>
+  <link rel="stylesheet" href="{% static 'portfolio/style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+  <!-- SIDE NAV -->
+  <nav class="sidenav">
+    <a href="#home"      class="nav-icon active" title="Home">
+      <svg viewBox="0 0 24 24"><path d="M3 12L12 3l9 9M5 10v9h5v-5h4v5h5v-9"/></svg>
+    </a>
+    <a href="#about"     class="nav-icon" title="About">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+    <a href="#skills"    class="nav-icon" title="Skills">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </a>
+    <a href="#projects"  class="nav-icon" title="Projects">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </a>
+    <a href="#education" class="nav-icon" title="Education">
+      <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </a>
+    <a href="#contact"   class="nav-icon" title="Contact">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </nav>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-nav">
+    <a href="#home"      class="nav-icon active" title="Home">
+      <svg viewBox="0 0 24 24"><path d="M3 12L12 3l9 9M5 10v9h5v-5h4v5h5v-9"/></svg>
+    </a>
+    <a href="#about"     class="nav-icon" title="About">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+    <a href="#skills"    class="nav-icon" title="Skills">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </a>
+    <a href="#projects"  class="nav-icon" title="Projects">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </a>
+    <a href="#education" class="nav-icon" title="Education">
+      <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </a>
+    <a href="#contact"   class="nav-icon" title="Contact">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- HOME -->
+    <section id="home" class="section hero-section">
+      <div class="hero-glow"></div>
+      <div class="hero-inner fade-up">
+        <div class="avatar-wrap">
+          <div class="avatar-ring"></div>
+          <img src="{% static 'portfolio/Adrian.png' %}" alt="Profile" class="avatar">
+        </div>
+        <h1 class="hero-title">Hi, I'm <span class="accent">Adrian</span></h1>
+        <p class="hero-sub">I'm a <span class="typewriter" id="typewriter"></span><span class="cursor">|</span></p>
+        <p class="hero-desc">Learning to build modern web applications with Python and Django.<br>continuous learning.</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn btn-primary">View My Work</a>
+          <a href="#contact"  class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="section-header fade-up">
+        <h2 class="section-title">About <span class="accent">Me</span></h2>
+      </div>
+      {% for info in infos %}
+      <div class="about-grid">
+        <div class="about-text fade-up">
+          <p>Hi, I'm <strong>{{ info.name }}</strong>. I'm a third-year BS Information Technology student with a passion for web development. I enjoy building things from scratch and learning new technologies along the way.</p>
+          <p>Currently focused on mastering Django and Python to build full-stack web applications. Always looking for opportunities to grow and improve my skills.</p>
+          <div class="info-details">
+            <div class="info-pill">
+              <span class="info-label">Age</span>
+              <span class="info-value">{{ info.age }}</span>
+            </div>
+            <div class="info-pill">
+              <span class="info-label">Birthday</span>
+              <span class="info-value">{{ info.birth_date|date:"F j, Y" }}</span>
+            </div>
+            <div class="info-pill">
+              <span class="info-label">Degree</span>
+              <span class="info-value">BS Information Technology</span>
+            </div>
+            <div class="info-pill">
+              <span class="info-label">Status</span>
+              <span class="info-value">3rd Year Student</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-stats fade-up">
+          <div class="stat-card">
+            <span class="stat-num" data-target="3" data-suffix="rd">0</span>
+            <span class="stat-label">Year IT Student</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" data-target="4" data-suffix="+">0</span>
+            <span class="stat-label">Projects Built</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" data-target="5" data-suffix="+">0</span>
+            <span class="stat-label">Skills Learned</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" data-target="1" data-suffix="+">0</span>
+            <span class="stat-label">Years Coding</span>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="about-grid">
+        <div class="about-text fade-up">
+          <p>I'm a third-year BS Information Technology student with a passion for web development. I enjoy building things from scratch and learning new technologies along the way.</p>
+          <p>Currently focused on mastering Django and Python to build full-stack web applications. Always looking for opportunities to grow and improve my skills.</p>
+        </div>
+        <div class="about-stats fade-up">
+          <div class="stat-card">
+            <span class="stat-num" data-target="3" data-suffix="rd">0</span>
+            <span class="stat-label">Year IT Student</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" data-target="4" data-suffix="+">0</span>
+            <span class="stat-label">Projects Built</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" data-target="5" data-suffix="+">0</span>
+            <span class="stat-label">Skills Learned</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" data-target="1" data-suffix="+">0</span>
+            <span class="stat-label">Years Coding</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="section-header fade-up">
+        <span class="section-tag">What I Know</span>
+        <h2 class="section-title">My <span class="accent">Skills</span></h2>
+      </div>
+      <div class="skills-grid fade-up">
+        {% for skill in skills %}
+        <div class="skill-item">
+          <div class="skill-circle-wrap">
+            <div class="skill-bg-icon">
+              {% with name=skill.technical_skills|lower %}
+                {% if "c++" in name or "cpp" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="">
+                {% elif "java" in name and "script" not in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="">
+                {% elif "javascript" in name or "js" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="">
+                {% elif "python" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="">
+                {% elif "django" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="">
+                {% elif "html" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="">
+                {% elif "css" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="">
+                {% elif "php" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="">
+                {% elif "mysql" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="">
+                {% elif "react" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="">
+                {% elif "git" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="">
+                {% elif "figma" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="">
+                {% elif "bootstrap" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="">
+                {% elif "typescript" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="">
+                {% elif "node" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="">
+                {% elif "vue" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="">
+                {% elif "c#" in name or "csharp" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="">
+                {% elif "illustrator" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" alt="">
+                {% elif "photoshop" in name %}
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" alt="">
+                {% else %}
+                  <span class="skill-bg-letter">{{ skill.technical_skills|first|upper }}</span>
+                {% endif %}
+              {% endwith %}
+            </div>
+            <svg class="skill-ring" viewBox="0 0 120 120">
+              <circle class="skill-ring-track" cx="60" cy="60" r="50"/>
+              <circle class="skill-ring-fill level-{{ skill.level }}" cx="60" cy="60" r="50"
+                data-level="{% if skill.level == 'beginner' %}35{% elif skill.level == 'intermediate' %}65{% else %}90{% endif %}"/>
+            </svg>
+            <span class="skill-percent">
+              {% if skill.level == 'beginner' %}35{% elif skill.level == 'intermediate' %}65{% else %}90{% endif %}%
+            </span>
+          </div>
+          <h3 class="skill-name">{{ skill.technical_skills }}</h3>
+          <span class="skill-level-label level-{{ skill.level }}">{{ skill.get_level_display }}</span>
+        </div>
+        {% empty %}
+        <p class="empty-msg">No skills added yet — add them in the admin panel.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="section-header fade-up">
+        <span class="section-tag">What I've Built</span>
+        <h2 class="section-title">My <span class="accent">Projects</span></h2>
+      </div>
+      <div class="projects-grid fade-up">
+        {% for project in projects %}
+        <div class="project-card">
+          <div class="project-card-top">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            {% if project.github_link %}
+            <a href="{{ project.github_link }}" class="project-link" target="_blank">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.02 10.02 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+            </a>
+            {% endif %}
+          </div>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-desc">{{ project.description }}</p>
+          <div class="project-tags">
+            {% for tool in project.tools_used.split %}
+            <span class="project-tag">{{ tool }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% empty %}
+        <p class="empty-msg">No projects added yet — add them in the admin panel.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="section">
+      <div class="section-header fade-up">
+        <span class="section-tag">My Journey</span>
+        <h2 class="section-title">Academic <span class="accent">Journey</span></h2>
+      </div>
+      <div class="timeline fade-up">
+        {% for edu in education %}
+        <div class="timeline-item {% if edu.is_current %}current{% endif %}">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="edu-level-tag">{{ edu.get_level_display }}</span>
+            <h3 class="edu-school">
+              {{ edu.school }}
+              {% if edu.is_current %}<span class="current-pill">Currently Enrolled</span>{% endif %}
+            </h3>
+            {% if edu.degree %}<p class="edu-degree">{{ edu.degree }}</p>{% endif %}
+            <p class="edu-years">
+              {{ edu.year_started }} —
+              {% if edu.is_current %}Present{% else %}Graduated {{ edu.year_graduated }}{% endif %}
+            </p>
+          </div>
+        </div>
+        {% empty %}
+        <p class="empty-msg">No education added yet — add it in the admin panel.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="section-header fade-up">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Contact <span class="accent">Me</span></h2>
+      </div>
+      {% if contact %}
+      <div class="contact-grid fade-up">
+        <a href="/cdn-cgi/l/email-protection#681313480b07061c090b1c460d05090104481515" class="contact-card">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>{{ contact.email }}</span>
+        </a>
+        {% if contact.github %}
+        <a href="{{ contact.github }}" class="contact-card" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.02 10.02 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+          <span>GitHub</span>
+        </a>
+        {% endif %}
+        {% if contact.facebook %}
+        <a href="{{ contact.facebook }}" class="contact-card" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          <span>Facebook</span>
+        </a>
+        {% endif %}
+        {% if contact.linkedin %}
+        <a href="{{ contact.linkedin }}" class="contact-card" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </section>
+
+  </main>
+
+  <script src="{% static 'portfolio/Main.js' %}"></script>
+  <script src="{% static 'portfolio/Particle.js' %}"></script>
+  <script src="{% static 'portfolio/Scroll.js' %}"></script>
+
+</body>
+</html>
